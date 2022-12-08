@@ -23,7 +23,7 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: risk-management-db
-      - name: risk-management-auth
+      - name: risk-management-uaa
 
   - name: risk-management-db-deployer
     type: hdb
@@ -47,7 +47,7 @@ modules:
           name: srv-api # must be used in xs-app.json as well
           url: ~{srv-url}
           forwardAuthToken: true
-      - name: risk-management-auth
+      - name: risk-management-uaa
 
 resources:
   - name: risk-management-db
@@ -55,16 +55,7 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: risk-management-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application
-      path: ./xs-security.json
-      config:
-        xsappname: risk-management-${org}-${space}
-        tenant-mode: dedicated
-
+  
   - name: risk-management-uaa
     type: org.cloudfoundry.managed-service
     parameters:
